@@ -17,28 +17,27 @@ const winningArray = [
     [cellsArray[2],cellsArray[4],cellsArray[6]]
 ]
 
+const drawArray = []
+
 let currentPlayer = 'x'
-let winningPlayer = ''
+
 function checkWinner(){
     for(win of winningArray){
         if(win[0].classList.contains('x') && win[1].classList.contains('x') && win[2].classList.contains('x')){
             winner.textContent = 'X WINS'
-            displayWinner()
+            winningScreen.style.visibility = 'visible'
         }
         else if(win[0].classList.contains('o') && win[1].classList.contains('o') && win[2].classList.contains('o')){
             winner.textContent =  'CIRCLE WINS'
-            displayWinner()
+            winningScreen.style.visibility = 'visible'
         }
         
     }
     
 }
-function displayWinner(){
-    winningScreen.style.visibility = 'visible'
-    
-}
 
 function restart(){
+        drawArray.length = 0
         winningScreen.style.visibility = 'hidden'
         for (c of cellsArray){
             c.classList.remove('x')
@@ -56,13 +55,13 @@ restartButton.addEventListener('click',() =>{
 
 board.classList.add(currentPlayer)
 cells.forEach((cell)=>{
-    cell.addEventListener('click',()=>{
+    cell.addEventListener('click',()=>{ 
         if(currentPlayer === 'x' && !cell.classList.contains('x') && !cell.classList.contains('o') ){
             board.classList.remove(currentPlayer)
             currentPlayer = 'o'
             board.classList.add(currentPlayer)
             cell.classList.add('x')
-            
+    
             
             
         }
@@ -73,27 +72,14 @@ cells.forEach((cell)=>{
             cell.classList.add('o')
             
         }
-        for(c of cellsArray){
-            if(c.classList === 'cells x' || c.classList === 'cells o' ){
-                console.log('draw')
-            }
-            console.log(c.classList)
+        if(cell.classList.value === 'cell x' || cell.classList.value === 'cell o' ){
+                drawArray.push(cell.classList.value)
         }
         
+        if(drawArray.length === 9){
+            winner.textContent = 'DRAW'
+            winningScreen.style.visibility = 'visible'
+        }
     
         checkWinner()
 })})
-
-
-
-
-// Start game with board as x
-// if x clicks cell and cell is empty mark cell as x
-// switch board to o
-// o clicks cell withought class x or o mark cell as o
-// switch statment to check if there are 3 of the same in a row column or diagonal player wins
-// if not draw
-// display winner screen
-// on button restart clear all classes restart game
-
-
